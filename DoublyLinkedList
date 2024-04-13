@@ -1,0 +1,93 @@
+#include <iostream>
+
+// Define a Node class for the linked list
+template <typename T>
+class Node {
+public:
+    T data;
+    Node* next;
+    Node* prev;
+
+    Node(T value) : data(value), next(nullptr), prev(nullptr) {}
+};
+
+// Define the DoublyLinkedList class
+template <typename T>
+class DoublyLinkedList {
+private:
+    Node<T>* head;
+    Node<T>* tail;
+
+public:
+    DoublyLinkedList() : head(nullptr), tail(nullptr) {}
+
+    // Function to add a new node to the end of the list
+    void append(T value) {
+        Node<T>* newNode = new Node<T>(value);
+        if (head == nullptr) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            tail->next = newNode;
+            newNode->prev = tail;
+            tail = newNode;
+        }
+    }
+
+    // Function to remove a node from the list
+    void remove(T value) {
+        Node<T>* current = head;
+        while (current != nullptr) {
+            if (current->data == value) {
+                if (current == head) {
+                    head = current->next;
+                    if (head != nullptr) head->prev = nullptr;
+                } else if (current == tail) {
+                    tail = current->prev;
+                    if (tail != nullptr) tail->next = nullptr;
+                } else {
+                    current->prev->next = current->next;
+                    current->next->prev = current->prev;
+                }
+                delete current;
+                return;
+            }
+            current = current->next;
+        }
+    }
+
+    // Function to print the elements of the list
+    void print() {
+        Node<T>* current = head;
+        while (current != nullptr) {
+            std::cout << current->data << " ";
+            current = current->next;
+        }
+        std::cout << std::endl;
+    }
+};
+
+int main() {
+    // Create a doubly linked list of integers
+    DoublyLinkedList<int> list;
+
+    // Append some elements to the list
+    list.append(1);
+    list.append(2);
+    list.append(3);
+    list.append(4);
+    list.append(5);
+
+    // Print the initial list
+    std::cout << "Initial list: ";
+    list.print();
+
+    // Remove an element from the list
+    list.remove(3);
+
+    // Print the list after removal
+    std::cout << "List after removing 3: ";
+    list.print();
+
+    return 0;
+}
