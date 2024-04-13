@@ -1,0 +1,52 @@
+#include <cassert>
+#include <iostream>
+#include "DoublyLinkedList.h" // Assuming you have a DoublyLinkedList implementation
+
+void testDoublyLinkedList() {
+    // Test with integers
+    DoublyLinkedList<int> intList;
+    intList.append(1);
+    intList.append(2);
+    intList.append(3);
+    assert(intList.size() == 3);
+
+    // Test with strings
+    DoublyLinkedList<std::string> stringList;
+    stringList.append("apple");
+    stringList.append("banana");
+    stringList.append("cherry");
+    assert(stringList.size() == 3);
+
+    // Test with custom objects
+    struct Person {
+        std::string name;
+        int age;
+    };
+
+    DoublyLinkedList<Person> personList;
+    Person p1 = {"Alice", 30};
+    Person p2 = {"Bob", 25};
+    Person p3 = {"Charlie", 35};
+    personList.append(p1);
+    personList.append(p2);
+    personList.append(p3);
+    assert(personList.size() == 3);
+
+    // Test removal
+    personList.remove(p2);
+    assert(personList.size() == 2);
+
+    // Test iterator
+    int sum = 0;
+    for (const auto& value : intList) {
+        sum += value;
+    }
+    assert(sum == 6);
+
+    std::cout << "All tests passed!" << std::endl;
+}
+
+int main() {
+    testDoublyLinkedList();
+    return 0;
+}
